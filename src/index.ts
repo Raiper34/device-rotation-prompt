@@ -1,0 +1,1 @@
+export {DeviceRotationPrompt} from './device-rotation-prompt';

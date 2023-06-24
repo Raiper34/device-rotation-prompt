@@ -1,0 +1,25 @@
+{
+  "name": "device-rotation-prompt",
+  "version": "0.0.1",
+  "description": "Library to show device rotate prompt, when device is wrong orientation as you expect",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "npx tsc && browserify dist/index.js -o dist/browser-bundle.js -s deviceRotationPrompt",
+    "publish": "npm run build && npm publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Raiper34/device-rotation-prompt.git"
+  },
+  "author": "Raiper34",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Raiper34/device-rotation-prompt/issues"
+  },
+  "homepage": "https://github.com/Raiper34/device-rotation-prompt#readme",
+  "devDependencies": {
+    "browserify": "^17.0.0",
+    "typescript": "^5.1.3"
+  }
+}
