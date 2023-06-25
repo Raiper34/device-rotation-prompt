@@ -1,1 +1,1 @@
-export {DeviceRotationPrompt} from './device-rotation-prompt';
+export {DeviceRotationPrompt, IConfig} from './device-rotation-prompt';

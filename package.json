@@ -1,12 +1,15 @@
 {
   "name": "device-rotation-prompt",
   "version": "0.0.1",
-  "description": "Library to show device rotate prompt, when device is wrong orientation as you expect",
+  "description": "The device rotation prompt is the library to show a fullscreen prompt message when device orientation is different than you expect.",
+  "keywords": ["device", "rotation", "prompt", "rotate device", "device rotation prompt"],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "npx tsc && browserify dist/index.js -o dist/browser-bundle.js -s deviceRotationPrompt",
-    "publish": "npm run build && npm publish"
+    "publish": "npm run build && npm publish",
+    "docs": "npx typedoc src/index.ts",
+    "deploy": "npm run docs && netlify deploy --dir=docs --prod"
   },
   "repository": {
     "type": "git",
@@ -17,9 +20,11 @@
   "bugs": {
     "url": "https://github.com/Raiper34/device-rotation-prompt/issues"
   },
-  "homepage": "https://github.com/Raiper34/device-rotation-prompt#readme",
+  "homepage": "https://device-rotation-prompt.netlify.app/",
   "devDependencies": {
     "browserify": "^17.0.0",
+    "netlify-cli": "^15.6.0",
+    "typedoc": "^0.24.8",
     "typescript": "^5.1.3"
   }
 }

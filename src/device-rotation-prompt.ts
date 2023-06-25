@@ -1,4 +1,4 @@
-interface IConfig {
+export interface IConfig {
     orientation?: 'landscape' | 'portrait';
     backgroundColor?: string;
     imageColor?: string;
@@ -83,7 +83,6 @@ export class DeviceRotationPrompt {
                 top: 0px;
                 left: 0px;
                 background-color: ${this.config.backgroundColor!};
-                display: none;
                 justify-content: center;
                 align-items: center;
                 flex-direction: column;
