@@ -57,9 +57,18 @@ The properties are as follows and all are optional.
 | **styleId**  | `'promptStyle'`                                         | Id of style tag, where all styles of this library are defined                                                    |
 | **zIndex**  | `undefined`                                             | z-index of whole prompt (`number`)                                                                               |
 
-
 # Usage in browser
-TODO
+You can also use this library in the browser without compiling using jsDelivr.
+Import script into HTML file, and you can access classes through the global `treeUtils` object.
+```html
+<script src="https://cdn.jsdelivr.net/npm/device-rotation-prompt@1/dist/browser-bundle.min.js"></script>
+<script>
+    const prompt = new deviceRotationPrompt.DeviceRotationPrompt({orientation: 'landscape'});
+</script>
+```
+
+# Documentation
+For more details and complete documentation check: https://device-rotation-prompt.netlify.app/
 
 # License
 MIT
