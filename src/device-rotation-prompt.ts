@@ -69,7 +69,7 @@ export interface IConfig {
  * Default class config
  */
 const DEFAULT_CONFIG: IConfig = {
-    orientation: 'landscape',
+    orientation: 'portrait',
     backgroundColor: '#000000',
     imageColor: '#ffffff',
     imageSize: undefined,
