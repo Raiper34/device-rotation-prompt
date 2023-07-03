@@ -1,66 +1,82 @@
 export interface IConfig {
     /**
      * The orientation you want to force, if orientation is different, prompt is showed.
+     * @default 'landscape'
      */
     orientation?: 'landscape' | 'portrait';
     /**
      * Background color of whole prompt (all css possibilities, like hexa color '#000000', 'red'...)
+     * @default '#000000'
      */
     backgroundColor?: string;
     /**
      * Color of device image (all css possibilities, like hexa color '#000000', 'red'...)
+     * @default '#ffffff'
      */
     imageColor?: string;
     /**
      * Size of device image (all css units like px, em, rem, vh...)
+     * @default '60vh' for portrait '30vh' for landscape
      */
     imageSize?: string | undefined;
     /**
      * Hide/show image
+     * @default false
      */
     hideImage?: boolean;
     /**
      * Description text to show
+     * @default 'Please rotate your device'
      */
     text?: string;
     /**
      * Color of description text (all css possibilities, like hexa color '#000000', 'red'...)
+     * @default '#ffffff'
      */
     textColor?: string;
     /**
      * Size of description text (all css units like px, em, rem, vh...)
+     * @default '10vh' for portrait '5vh' for landscape
      */
     textSize?: string | undefined;
     /**
      * Font of description text
+     * @default '\'Arial Black\', \'Arial Bold\', Gadget, sans-serif'
      */
     textFont?: string;
     /**
      * Hide/show description text
+     * @default false
      */
     hideText?: boolean;
     /**
      * Enable/disable image animation
+     * @default false
      */
     animationDisable?: boolean;
     /**
      * Id of whole container prompt
+     * @default 'promptContainer'
      */
     containerId?: string;
     /**
      * Id of svg image
+     * @default 'promptImage'
      */
     imageId?: string;
     /**
      * Id of container with description text
+     * @default 'promptText'
      */
     textId?: string;
     /**
      * Id of style tag, where all styles of this library are defined
+     * @default 'promptStyle'
      */
     styleId?: string;
     /**
      * z-index of whole prompt
+     * @default undefined
      */
     zIndex?: number | undefined;
 }
