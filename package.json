@@ -7,7 +7,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "npx tsc && browserify dist/index.js -o dist/browser-bundle.js -s deviceRotationPrompt",
-    "publish": "npm run build && npm publish",
+    "release": "npm run build && npm publish && npm run deploy",
     "docs": "npx typedoc src/index.ts",
     "deploy": "npm run docs && netlify deploy --dir=docs --prod"
   },
