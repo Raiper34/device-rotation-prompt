@@ -84,6 +84,12 @@ export interface IConfig {
      * @default undefined
      */
     zIndex?: number | undefined;
+    /**
+     * Turn on/off automatic mobile/tablet detection
+     * When automatic detection is on, then prompt is show only on mobile/tablet devices
+     * @default false
+     */
+    mobileDetect: boolean;
 }
 
 /**
@@ -107,6 +113,7 @@ const DEFAULT_CONFIG: IConfig = {
     textId: 'promptText',
     styleId: 'promptStyle',
     zIndex: undefined,
+    mobileDetect: false,
 }
 
 /**
@@ -131,10 +138,12 @@ export class DeviceRotationPrompt {
      */
     constructor(config: IConfig = DEFAULT_CONFIG) {
         this.config = {...DEFAULT_CONFIG, ...config};
-        this.generateStyles();
-        this.generateHtml();
-        this.checkOrientation();
-        addEventListener("resize", this.checkOrientationFn);
+        if (this.canInitialize()) {
+            this.generateStyles();
+            this.generateHtml();
+            this.checkOrientation();
+            addEventListener("resize", this.checkOrientationFn);
+        }
     }
 
     /**
@@ -146,6 +155,14 @@ export class DeviceRotationPrompt {
         document.getElementById(this.config.imageId!)?.remove();
         document.getElementById(this.config.textId!)?.remove();
         document.getElementById(this.config.styleId!)?.remove();
+    }
+
+    /**
+     * Method to determine, if library and all functionality can be initialized
+     * @private
+     */
+    private canInitialize(): boolean {
+        return !this.config.mobileDetect || this.isMobile();
     }
 
     /**
@@ -315,6 +332,14 @@ export class DeviceRotationPrompt {
           </g>
         </svg>
         `;
+    }
+
+    /**
+     * Detect if is mobile/tablet platform or not
+     * @private
+     */
+    private isMobile(): boolean {
+        return /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     }
 
 }
