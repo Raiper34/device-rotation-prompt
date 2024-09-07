@@ -55,6 +55,11 @@ export interface IConfig {
      */
     animationDisable?: boolean;
     /**
+     * Direction of image animation
+     * @default 'clockwise'
+     */
+    animationDirection?: 'clockwise' | 'anticlockwise';
+    /**
      * Id of whole container prompt
      * @default 'promptContainer'
      */
@@ -96,6 +101,7 @@ const DEFAULT_CONFIG: IConfig = {
     textFont: '\'Arial Black\', \'Arial Bold\', Gadget, sans-serif',
     hideText: false,
     animationDisable: false,
+    animationDirection: 'clockwise',
     containerId: 'promptContainer',
     imageId: 'promptImage',
     textId: 'promptText',
@@ -269,7 +275,7 @@ export class DeviceRotationPrompt {
         if (this.config.animationDisable) {
             return this.finalAngle;
         }
-        return this.config.orientation === 'portrait' ? 90 : 0;
+        return this.config.orientation === 'portrait' ? 90 * (this.config.animationDirection === 'clockwise' ? -1 : 1) : 0;
     }
 
     /**
@@ -277,7 +283,7 @@ export class DeviceRotationPrompt {
      * @private
      */
     private get finalAngle(): number {
-        return this.config.orientation === 'portrait' ? 0 : 90;
+        return this.config.orientation === 'portrait' ? 0 : 90 * (this.config.animationDirection === 'clockwise' ? 1 : -1);
     }
 
     /**
