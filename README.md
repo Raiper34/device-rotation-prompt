@@ -1,19 +1,32 @@
 [![npm version](https://badge.fury.io/js/device-rotation-prompt.svg)](https://badge.fury.io/js/device-rotation-prompt)
-[![CircleCI](https://circleci.com/gh/Raiper34/device-rotation-prompt.svg?style=shield)](https://circleci.com/gh/Raiper34/device-rotation-prompt)
+[![docs](https://badgen.net/badge/docs/online/orange)](https://device-rotation-prompt.netlify.app)
 ![npm bundle size](https://img.shields.io/bundlephobia/min/device-rotation-prompt)
 ![NPM](https://img.shields.io/npm/l/device-rotation-prompt)
-[![docs](https://badgen.net/badge/docs/online/orange)](https://device-rotation-prompt.netlify.app)
+[![CircleCI](https://circleci.com/gh/Raiper34/device-rotation-prompt.svg?style=shield)](https://circleci.com/gh/Raiper34/device-rotation-prompt)
+[![Coverage Status](https://coveralls.io/repos/github/Raiper34/device-rotation-prompt/badge.svg?branch=main)](https://coveralls.io/github/Raiper34/device-rotation-prompt?branch=main)
+[![npm](https://img.shields.io/npm/dt/device-rotation-prompt)](https://badge.fury.io/js/device-rotation-prompt)
+[![](https://data.jsdelivr.com/v1/package/npm/device-rotation-prompt/badge?style=rounded)](https://www.jsdelivr.com/package/npm/device-rotation-prompt)
+[![GitHub Repo stars](https://img.shields.io/github/stars/raiper34/device-rotation-prompt)](https://github.com/Raiper34/device-rotation-prompt)
 
 # Device rotation prompt
 
 The device rotation prompt is the library to show a fullscreen prompt message when device orientation is different than you expect.
 It is designed to be used in html5 games, but it can be used on any website.
 
-# Instalation
+### Content
+- [🚀 Instalation](#-instalation)
+- [📚 Documentation](#-documentation)
+- [💻 Usage](#-usage)
+    - [🌐 Usage in browser](#-usage-in-browser)
+- [📖 License](#-license)
+
+# 🚀 Instalation
 Install library using npm `npm install device-rotation-prompt --save` and import main class into your code base `import {DeviceRotationPrompt} from 'device-orientation-prompt';`.
 
+# 📚 Documentation
+For more details and complete documentation check: https://device-rotation-prompt.netlify.app/
 
-# Usage
+# 💻 Usage
 If you do not need to configure and the default style and setting are enough, you can just instantiate the class and you are done.
 ```javascript
 const prompt = new DeviceRotationPrompt();
@@ -36,28 +49,9 @@ const prompt = new DeviceRotationPrompt({
     ...
 });
 ```
-The properties are as follows and all are optional.
+The properties are as follows and all are optional: https://device-rotation-prompt.netlify.app/interfaces/iconfig
 
-| **Property** | Default                                                 | Description                                                                                                      |
-|--------------|---------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
-| **orientation**  | `'landscape'`                                           | The orientation you want to force, if orientation is different, prompt is showed (`'landscape'` or `'portrait'`) |
-| **backgroundColor**  | `'#000000'`                                             | Background color of whole prompt                                                                                 |
-| **imageColor**  | `'#ffffff'`                                             | Color of device image                                                                                            |
-| **imageSize**  | `'60vh'` for portrait `'30vh'` for landscape                | Size of device image (all css units like `'px'`, `'em'`, `'rem'`, `'vh'`...)                                     |
-| **hideImage**  | `false`                                                 | Hide/show image                                                                                                  |
-| **animationDisable**  | `false`                                                 | Enable/disable image animation                                                                                   |
-| **text**  | `'Please rotate your device'`                           | Description text to show                                                                                         |
-| **textColor**  | `'#ffffff'`                                             | Color of description text                                                                                        |
-| **textSize**  | `'10vh'` for portrait `'5vh'` for landscape                 | Size of description text (all css units like `'px'`, `'em'`, `'rem'`, `'vh'`...)                                                                                         |
-| **textFont**  | `'\'Arial Black\', \'Arial Bold\', Gadget, sans-serif'` | Font of description text                                                                                         |
-| **hideText**  | `false`                                                 | Hide/show description text                                                                                       |
-| **containerId**  | `'promptContainer'`                                     | Id of whole container prompt                                                                                     |
-| **imageId**  | `'promptImage'`                                         | Id of svg image                                                                                                  |
-| **textId**  | `'promptText'`                                          | Id of container with description text                                                                            |
-| **styleId**  | `'promptStyle'`                                         | Id of style tag, where all styles of this library are defined                                                    |
-| **zIndex**  | `undefined`                                             | z-index of whole prompt (`number`)                                                                               |
-
-# Usage in browser
+## 🌐 Usage in browser
 You can also use this library in the browser without compiling using jsDelivr.
 Import script into HTML file, and you can access classes through the global `treeUtils` object.
 ```html
@@ -67,8 +61,5 @@ Import script into HTML file, and you can access classes through the global `tre
 </script>
 ```
 
-# Documentation
-For more details and complete documentation check: https://device-rotation-prompt.netlify.app/
-
-# License
+# 📖 License
 MIT
