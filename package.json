@@ -1,13 +1,13 @@
 {
   "name": "device-rotation-prompt",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "The device rotation prompt is the library to show a fullscreen prompt message when device orientation is different than you expect.",
   "keywords": ["device", "rotation", "prompt", "rotate device", "device rotation prompt"],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "npx tsc && browserify dist/index.js -o dist/browser-bundle.js -s deviceRotationPrompt",
-    "release": "npm run build && npm publish && npm run deploy && npm run deploy",
+    "release": "npm run build && npm publish && npm run deploy",
     "docs": "npx typedoc src/index.ts",
     "deploy": "npm run docs && netlify deploy --dir=docs --prod"
   },
