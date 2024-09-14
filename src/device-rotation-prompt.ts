@@ -91,12 +91,12 @@ export interface IConfig {
      * When automatic detection is on, then prompt is show only on mobile/tablet devices
      * @default false
      */
-    mobileDetect: boolean;
+    mobileDetect?: boolean;
     /**
      * Phone style
      * @default 'circle'
      */
-    imageStyle: 'circle' | 'rectangle' | 'none';
+    imageStyle?: 'circle' | 'rectangle' | 'none';
 }
 
 /**
