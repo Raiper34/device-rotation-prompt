@@ -1,109 +1,11 @@
-import { Svg } from "./svg";
-
-export interface IConfig {
-    /**
-     * The orientation you want to force, if orientation is different, prompt is showed.
-     * @default 'landscape'
-     */
-    orientation?: 'landscape' | 'portrait';
-    /**
-     * Background color of whole prompt (all css possibilities, like hexa color '#000000', 'red'...)
-     * @default '#000000'
-     */
-    backgroundColor?: string;
-    /**
-     * Color of device image (all css possibilities, like hexa color '#000000', 'red'...)
-     * @default '#ffffff'
-     */
-    imageColor?: string;
-    /**
-     * Size of device image (all css units like px, em, rem, vh...)
-     * @default '60vh' for portrait '30vh' for landscape
-     */
-    imageSize?: string | undefined;
-    /**
-     * Hide/show image
-     * @default false
-     */
-    hideImage?: boolean;
-    /**
-     * Description text to show
-     * @default 'Please rotate your device'
-     */
-    text?: string;
-    /**
-     * Color of description text (all css possibilities, like hexa color '#000000', 'red'...)
-     * @default '#ffffff'
-     */
-    textColor?: string;
-    /**
-     * Size of description text (all css units like px, em, rem, vh...)
-     * @default '10vh' for portrait '5vh' for landscape
-     */
-    textSize?: string | undefined;
-    /**
-     * Font of description text
-     * @default '\'Arial Black\', \'Arial Bold\', Gadget, sans-serif'
-     */
-    textFont?: string;
-    /**
-     * Hide/show description text
-     * @default false
-     */
-    hideText?: boolean;
-    /**
-     * Enable/disable image animation
-     * @default false
-     */
-    animationDisable?: boolean;
-    /**
-     * Direction of image animation
-     * @default 'clockwise'
-     */
-    animationDirection?: 'clockwise' | 'anticlockwise';
-    /**
-     * Id of whole container prompt
-     * @default 'promptContainer'
-     */
-    containerId?: string;
-    /**
-     * Id of svg image
-     * @default 'promptImage'
-     */
-    imageId?: string;
-    /**
-     * Id of container with description text
-     * @default 'promptText'
-     */
-    textId?: string;
-    /**
-     * Id of style tag, where all styles of this library are defined
-     * @default 'promptStyle'
-     */
-    styleId?: string;
-    /**
-     * z-index of whole prompt
-     * @default undefined
-     */
-    zIndex?: number | undefined;
-    /**
-     * Turn on/off automatic mobile/tablet detection
-     * When automatic detection is on, then prompt is show only on mobile/tablet devices
-     * @default false
-     */
-    mobileDetect?: boolean;
-    /**
-     * Phone style
-     * @default 'circle'
-     */
-    imageStyle?: 'circle' | 'rectangle' | 'none';
-}
+import {Svg} from "./svg";
+import {AnimationDirection, DeviceOrientation, IConfig, ImageStyle} from "./iconfig";
 
 /**
  * Default class config
  */
 const DEFAULT_CONFIG: IConfig = {
-    orientation: 'portrait',
+    orientation: DeviceOrientation.Portrait,
     backgroundColor: '#000000',
     imageColor: '#ffffff',
     imageSize: undefined,
@@ -114,14 +16,14 @@ const DEFAULT_CONFIG: IConfig = {
     textFont: '\'Arial Black\', \'Arial Bold\', Gadget, sans-serif',
     hideText: false,
     animationDisable: false,
-    animationDirection: 'clockwise',
+    animationDirection: AnimationDirection.Clockwise,
     containerId: 'promptContainer',
     imageId: 'promptImage',
     textId: 'promptText',
     styleId: 'promptStyle',
     zIndex: undefined,
     mobileDetect: false,
-    imageStyle: 'circle',
+    imageStyle: ImageStyle.Circle,
 }
 
 /**
@@ -265,7 +167,7 @@ export class DeviceRotationPrompt {
      * @private
      */
     private isDesiredOrientation(): boolean {
-        return this.config.orientation === 'portrait' ? window.innerHeight > window.innerWidth : window.innerHeight < window.innerWidth;
+        return this.config.orientation === DeviceOrientation.Portrait ? window.innerHeight > window.innerWidth : window.innerHeight < window.innerWidth;
     }
 
     /**
@@ -281,7 +183,7 @@ export class DeviceRotationPrompt {
      * @private
      */
     private get imageSize(): string {
-        return this.config.imageSize || (this.config.orientation === 'portrait' ? '60vh' : '30vh');
+        return this.config.imageSize || (this.config.orientation === DeviceOrientation.Portrait ? '60vh' : '30vh');
     }
 
     /**
@@ -289,7 +191,7 @@ export class DeviceRotationPrompt {
      * @private
      */
     private get textSize(): string {
-        return this.config.textSize || (this.config.orientation === 'portrait' ? '10vh' : '5vh');
+        return this.config.textSize || (this.config.orientation === DeviceOrientation.Portrait ? '10vh' : '5vh');
     }
 
     /**
@@ -300,7 +202,7 @@ export class DeviceRotationPrompt {
         if (this.config.animationDisable) {
             return this.finalAngle;
         }
-        return this.config.orientation === 'portrait' ? 90 * (this.config.animationDirection === 'clockwise' ? -1 : 1) : 0;
+        return this.config.orientation === DeviceOrientation.Portrait ? 90 * (this.config.animationDirection === AnimationDirection.Clockwise ? -1 : 1) : 0;
     }
 
     /**
@@ -308,7 +210,7 @@ export class DeviceRotationPrompt {
      * @private
      */
     private get finalAngle(): number {
-        return this.config.orientation === 'portrait' ? 0 : 90 * (this.config.animationDirection === 'clockwise' ? 1 : -1);
+        return this.config.orientation === DeviceOrientation.Portrait ? 0 : 90 * (this.config.animationDirection === AnimationDirection.Clockwise ? 1 : -1);
     }
 
     /**
@@ -341,9 +243,9 @@ export class DeviceRotationPrompt {
      */
     private get svgStyle(): string {
         switch (this.config.imageStyle) {
-            case 'rectangle':
+            case ImageStyle.Rectangle:
                 return Svg.getRectangleType(this.config.imageId!);
-            case 'none':
+            case ImageStyle.None:
                 return Svg.getNoneType(this.config.imageId!);
             default:
                 return Svg.getCircleType(this.config.imageId!);

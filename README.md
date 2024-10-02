@@ -43,7 +43,7 @@ prompt.destroy();
 If you want to configure the behavior and style of the prompt, you can pass the config object during instantiation.
 ```javascript
 const prompt = new DeviceRotationPrompt({
-    orientation: 'landscape',
+    orientation: DeviceOrientation.Landscape,
     backgroundColor: '#000000',
     imageColor: '#ffffff',
     ...
