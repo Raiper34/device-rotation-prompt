@@ -5,6 +5,8 @@
 [![CircleCI](https://circleci.com/gh/Raiper34/device-rotation-prompt.svg?style=shield)](https://circleci.com/gh/Raiper34/device-rotation-prompt)
 [![Coverage Status](https://coveralls.io/repos/github/Raiper34/device-rotation-prompt/badge.svg?branch=main)](https://coveralls.io/github/Raiper34/device-rotation-prompt?branch=main)
 [![npm](https://img.shields.io/npm/dt/device-rotation-prompt)](https://badge.fury.io/js/device-rotation-prompt)
+[![npm](https://img.shields.io/npm/dm/device-rotation-prompt)](https://badge.fury.io/js/device-rotation-prompt)
+[![npm](https://img.shields.io/npm/dw/device-rotation-prompt)](https://badge.fury.io/js/device-rotation-prompt)
 [![](https://data.jsdelivr.com/v1/package/npm/device-rotation-prompt/badge?style=rounded)](https://www.jsdelivr.com/package/npm/device-rotation-prompt)
 [![GitHub Repo stars](https://img.shields.io/github/stars/raiper34/device-rotation-prompt)](https://github.com/Raiper34/device-rotation-prompt)
 
