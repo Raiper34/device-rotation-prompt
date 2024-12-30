@@ -1,6 +1,7 @@
 .idea
 node_modules
 docs
-src
+assets
 .netlify
 .circleci
+demo.gif
