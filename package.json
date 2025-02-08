@@ -2,7 +2,13 @@
   "name": "device-rotation-prompt",
   "version": "3.0.0",
   "description": "The device rotation prompt is the library to show a fullscreen prompt message when device orientation is different than you expect.",
-  "keywords": ["device", "rotation", "prompt", "rotate device", "device rotation prompt"],
+  "keywords": [
+    "device",
+    "rotation",
+    "prompt",
+    "rotate device",
+    "device rotation prompt"
+  ],
   "homepage": "https://device-rotation-prompt.netlify.app/",
   "author": "Raiper34",
   "license": "MIT",
@@ -16,7 +22,13 @@
       "require": "./dist/device-rotation-prompt.umd.cjs"
     }
   },
-  "files": ["src", "dist", "test", "CHANGELOG.md", ".nvmrc"],
+  "files": [
+    "src",
+    "dist",
+    "test",
+    "CHANGELOG.md",
+    ".nvmrc"
+  ],
   "scripts": {
     "build": "tsc && vite build",
     "docs": "typedoc src/index.ts",
@@ -33,11 +45,12 @@
     "url": "https://github.com/Raiper34/device-rotation-prompt/issues"
   },
   "devDependencies": {
+    "@release-it/bumper": "^7.0.1",
     "auto-changelog": "^2.5.0",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
     "netlify-cli": "^17.37.1",
-    "release-it": "^17.11.0",
+    "release-it": "^18.1.2",
     "typedoc": "^0.26.10",
     "typescript": "^5.6.0",
     "vite": "^6.1.0",

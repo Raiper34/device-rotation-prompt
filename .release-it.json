@@ -14,5 +14,10 @@
     "before:init": [],
     "after:bump": ["npm run changelog", "npm run build"],
     "after:release": ["npm run deploy"]
+  },
+  "plugins": {
+    "@release-it/bumper": {
+      "out": "README.md"
+    }
   }
 }
