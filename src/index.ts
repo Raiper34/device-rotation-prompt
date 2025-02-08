@@ -1,2 +1,3 @@
 export {DeviceRotationPrompt} from './device-rotation-prompt';
-export {AnimationDirection, DeviceOrientation, IConfig, ImageStyle} from './iconfig';
+export {AnimationDirection, DeviceOrientation, ImageStyle} from './iconfig';
+export type { IConfig } from './iconfig';
