@@ -1,6 +1,6 @@
 {
   "name": "device-rotation-prompt",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "The device rotation prompt is the library to show a fullscreen prompt message when device orientation is different than you expect.",
   "keywords": [
     "device",

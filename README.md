@@ -29,7 +29,7 @@ npm install device-rotation-prompt --save
 ```
 or with jsdelivr
 ```html
-<script src="https://cdn.jsdelivr.net/npm/device-rotation-prompt@3.0.0/dist/device-rotation-prompt.iife.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/device-rotation-prompt@4.0.0/dist/device-rotation-prompt.iife.js"></script>
 ```
 
 # 📚 Documentation
@@ -64,7 +64,7 @@ The properties are as follows and all are optional: https://device-rotation-prom
 You can also use this library in the browser without compiling using jsDelivr.
 Import script into HTML file, and you can access classes through the global `treeUtils` object.
 ```html
-<script src="https://cdn.jsdelivr.net/npm/device-rotation-prompt@3.0.0/dist/device-rotation-prompt.iife.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/device-rotation-prompt@4.0.0/dist/device-rotation-prompt.iife.js"></script>
 <script>
     const prompt = new deviceRotationPrompt.DeviceRotationPrompt({orientation: 'landscape'});
 </script>
