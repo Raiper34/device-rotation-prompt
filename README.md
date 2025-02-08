@@ -16,14 +16,21 @@ The device rotation prompt is the library to show a fullscreen prompt message wh
 It is designed to be used in html5 games, but it can be used on any website.
 
 ### Content
-- [🚀 Instalation](#-instalation)
+- [🚀 Installation](#-instalation)
 - [📚 Documentation](#-documentation)
 - [💻 Usage](#-usage)
-    - [🌐 Usage in browser](#-usage-in-browser)
-- [📖 License](#-license)
+    - [🌐 Browser](#-browser)
+- [⚖️ License](#-license)
 
 # 🚀 Instalation
-Install library using npm `npm install device-rotation-prompt --save` and import main class into your code base `import {DeviceRotationPrompt} from 'device-orientation-prompt';`.
+Install **Device rotation prompt** library using npm
+```sh
+npm install device-rotation-prompt --save
+```
+or with jsdelivr
+```html
+<script src="https://cdn.jsdelivr.net/npm/device-rotation-prompt@3.0.0/dist/device-rotation-prompt.iife.js"></script>
+```
 
 # 📚 Documentation
 For more details and complete documentation check: https://device-rotation-prompt.netlify.app/
@@ -53,15 +60,15 @@ const prompt = new DeviceRotationPrompt({
 ```
 The properties are as follows and all are optional: https://device-rotation-prompt.netlify.app/interfaces/iconfig
 
-## 🌐 Usage in browser
+## 🌐 Browser
 You can also use this library in the browser without compiling using jsDelivr.
 Import script into HTML file, and you can access classes through the global `treeUtils` object.
 ```html
-<script src="https://cdn.jsdelivr.net/npm/device-rotation-prompt@1/dist/browser-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/device-rotation-prompt@3.0.0/dist/device-rotation-prompt.iife.js"></script>
 <script>
     const prompt = new deviceRotationPrompt.DeviceRotationPrompt({orientation: 'landscape'});
 </script>
 ```
 
-# 📖 License
-MIT
+# ⚖️ License
+[MIT](https://choosealicense.com/licenses/mit/)
