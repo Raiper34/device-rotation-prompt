@@ -33,14 +33,14 @@ export class DeviceRotationPrompt {
 
     /**
      * Class config
-     * @private
+     * @protected
      */
-    private readonly config;
+    protected readonly config;
     /**
      * Check orientation fn reference to be able to add and also remove event listener
-     * @private
+     * @protected
      */
-    private readonly checkOrientationFn = this.checkOrientation.bind(this);
+    protected readonly checkOrientationFn = this.checkOrientation.bind(this);
 
     /**
      * Constructor of class
@@ -69,17 +69,17 @@ export class DeviceRotationPrompt {
 
     /**
      * Method to determine, if library and all functionality can be initialized
-     * @private
+     * @protected
      */
-    private canInitialize(): boolean {
+    protected canInitialize(): boolean {
         return !this.config.mobileDetect || this.isMobile();
     }
 
     /**
      * Method to generate HTML elements like main fullscreen div container, svg image and also description text
-     * @private
+     * @protected
      */
-    private generateHtml(): void {
+    protected generateHtml(): void {
         const container = document.createElement('div');
         container.setAttribute('id', this.config.containerId!);
         document.body.appendChild(container);
@@ -96,9 +96,9 @@ export class DeviceRotationPrompt {
 
     /**
      * Method to generate styles for generated HTML elements
-     * @private
+     * @protected
      */
-    private generateStyles(): void {
+    protected generateStyles(): void {
         const style = document.createElement('style');
         style.setAttribute('id', this.config.styleId!);
         style.innerHTML = `
@@ -135,17 +135,17 @@ export class DeviceRotationPrompt {
 
     /**
      * z-index rule for css, if zIndex property is present in config
-     * @private
+     * @protected
      */
-    private get zIndexRule(): string {
+    protected get zIndexRule(): string {
         return this.config.zIndex === undefined ? '' : `z-index: ${this.config.zIndex}`;
     }
 
     /**
      * Animation css styles, @keyframes
-     * @private
+     * @protected
      */
-    private get animationStyle(): string {
+    protected get animationStyle(): string {
         return `
             @keyframes rotation {
                 25% {
@@ -164,41 +164,41 @@ export class DeviceRotationPrompt {
     /**
      * Method to find if current orientation is desired one
      * @returns true if orientation is same as you desire, false otherwise
-     * @private
+     * @protected
      */
-    private isDesiredOrientation(): boolean {
+    protected isDesiredOrientation(): boolean {
         return this.config.orientation === DeviceOrientation.Portrait ? window.innerHeight > window.innerWidth : window.innerHeight < window.innerWidth;
     }
 
     /**
      * Method to show/hide whole prompt
-     * @private
+     * @protected
      */
-    private checkOrientation(): void {
+    protected checkOrientation(): void {
         document.getElementById(this.config.containerId!)!.style.display = this.isDesiredOrientation() ? 'none' : 'flex';
     }
 
     /**
      * Size of image, returns size from config, or if image size is not presented in config it returns 60vh for portrait, 30vh for landscape
-     * @private
+     * @protected
      */
-    private get imageSize(): string {
+    protected get imageSize(): string {
         return this.config.imageSize || (this.config.orientation === DeviceOrientation.Portrait ? '60vh' : '30vh');
     }
 
     /**
      * Size of text, returns size from config, or if text size is not presented in config it returns 10vh for portrait, 5vh for landscape
-     * @private
+     * @protected
      */
-    private get textSize(): string {
+    protected get textSize(): string {
         return this.config.textSize || (this.config.orientation === DeviceOrientation.Portrait ? '10vh' : '5vh');
     }
 
     /**
      * Initial angle of image, if animation is disabled, it returns final angle
-     * @private
+     * @protected
      */
-    private get initialAngle(): number {
+    protected get initialAngle(): number {
         if (this.config.animationDisable) {
             return this.finalAngle;
         }
@@ -207,41 +207,41 @@ export class DeviceRotationPrompt {
 
     /**
      * Final angle of image
-     * @private
+     * @protected
      */
-    private get finalAngle(): number {
+    protected get finalAngle(): number {
         return this.config.orientation === DeviceOrientation.Portrait ? 0 : 90 * (this.config.animationDirection === AnimationDirection.Clockwise ? 1 : -1);
     }
 
     /**
      * Return display CSS property based on hideText property
-     * @private
+     * @protected
      */
-    private get isTextHidden(): string {
+    protected get isTextHidden(): string {
         return this.config.hideText ? 'none' : 'block';
     }
 
     /**
      * Return display CSS property based on hideImage property
-     * @private
+     * @protected
      */
-    private get isImageHidden(): string {
+    protected get isImageHidden(): string {
         return this.config.hideImage ? 'none' : 'block';
     }
 
     /**
      * Device SVG image
-     * @private
+     * @protected
      */
-    private get deviceSvg(): string {
+    protected get deviceSvg(): string {
         return `<?xml version="1.0" encoding="UTF-8"?>${this.svgStyle}`;
     }
 
     /**
      * Get phone svg style based on imageStyle property
-     * @private
+     * @protected
      */
-    private get svgStyle(): string {
+    protected get svgStyle(): string {
         switch (this.config.imageStyle) {
             case ImageStyle.Rectangle:
                 return Svg.getRectangleType(this.config.imageId!);
@@ -254,9 +254,9 @@ export class DeviceRotationPrompt {
 
     /**
      * Detect if is mobile/tablet platform or not
-     * @private
+     * @protected
      */
-    private isMobile(): boolean {
+    protected isMobile(): boolean {
         return /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     }
 
