@@ -1,5 +1,5 @@
 import {beforeEach, describe, expect, it, vi} from 'vitest'
-import {DeviceOrientation, DeviceRotationPrompt, ImageStyle} from "../src";
+import {AnimationDirection, DeviceOrientation, DeviceRotationPrompt, ImageStyle} from "../src";
 import {Svg} from "../src/svg";
 
 class DeviceRotationPromptTest extends DeviceRotationPrompt {
@@ -27,7 +27,7 @@ describe('Device rotation prompt', () => {
 
     beforeEach(() => {
         vi.stubGlobal('document', {
-            getElementById: vi.fn().mockReturnValue({style: {}}),
+            getElementById: vi.fn().mockReturnValue({remove: vi.fn(), style: {}}),
             body: {appendChild: vi.fn()},
             head: {appendChild: vi.fn()},
             createElement: vi.fn().mockReturnValue({setAttribute: vi.fn(), append: vi.fn()}),
@@ -37,6 +37,7 @@ describe('Device rotation prompt', () => {
             innerWidth: 0,
         });
         vi.stubGlobal('addEventListener', vi.fn());
+        vi.stubGlobal('removeEventListener', vi.fn());
         deviceRotationPrompt = new DeviceRotationPromptTest();
     });
 
@@ -222,24 +223,103 @@ describe('Device rotation prompt', () => {
         });
 
         it('imageStyle circle', () => {
-            deviceRotationPrompt = new DeviceRotationPromptTest({imageStyle: ImageStyle.Circle}) ;
+            deviceRotationPrompt = new DeviceRotationPromptTest({imageStyle: ImageStyle.Circle});
             const spy = vi.spyOn(Svg, 'getCircleType').mockReturnValue('circle')
             expect(deviceRotationPrompt.svgStyle).toBe('circle');
             spy.mockReset();
         });
 
         it('imageStyle rectangle', () => {
-            deviceRotationPrompt = new DeviceRotationPromptTest({imageStyle: ImageStyle.Rectangle}) ;
+            deviceRotationPrompt = new DeviceRotationPromptTest({imageStyle: ImageStyle.Rectangle});
             const spy = vi.spyOn(Svg, 'getRectangleType').mockReturnValue('rectangle')
             expect(deviceRotationPrompt.svgStyle).toBe('rectangle');
             spy.mockReset();
         });
 
         it('imageStyle none', () => {
-            deviceRotationPrompt = new DeviceRotationPromptTest({imageStyle: ImageStyle.None}) ;
+            deviceRotationPrompt = new DeviceRotationPromptTest({imageStyle: ImageStyle.None});
             const spy = vi.spyOn(Svg, 'getNoneType').mockReturnValue('none')
             expect(deviceRotationPrompt.svgStyle).toBe('none');
             spy.mockReset();
+        });
+    });
+
+    describe('should get initial angle', () => {
+        it('default', () => {
+            expect(deviceRotationPrompt.initialAngle).toBe(-90);
+        });
+
+        it('animationDisable true - should get final angle', () => {
+            deviceRotationPrompt = new DeviceRotationPromptTest({animationDisable: true});
+            vi.spyOn(deviceRotationPrompt, 'finalAngle', 'get').mockReturnValue(123);
+            expect(deviceRotationPrompt.initialAngle).toBe(123);
+        });
+
+        it('orientation portrait, animationDirection clockwise', () => {
+            deviceRotationPrompt = new DeviceRotationPromptTest({animationDisable: false, animationDirection: AnimationDirection.Clockwise, orientation: DeviceOrientation.Portrait});
+            expect(deviceRotationPrompt.initialAngle).toBe(-90);
+        });
+
+        it('orientation portrait, animationDirection anticlockwise', () => {
+            deviceRotationPrompt = new DeviceRotationPromptTest({animationDisable: false, animationDirection: AnimationDirection.Anticlockwise, orientation: DeviceOrientation.Portrait});
+            expect(deviceRotationPrompt.initialAngle).toBe(90);
+        });
+
+        it('orientation landscape, animationDirection clockwise', () => {
+            deviceRotationPrompt = new DeviceRotationPromptTest({animationDisable: false, animationDirection: AnimationDirection.Clockwise, orientation: DeviceOrientation.Landscape});
+            expect(deviceRotationPrompt.initialAngle).toBe(0);
+        });
+
+        it('orientation landscape, animationDirection anticlockwise', () => {
+            deviceRotationPrompt = new DeviceRotationPromptTest({animationDisable: false, animationDirection: AnimationDirection.Anticlockwise, orientation: DeviceOrientation.Landscape});
+            expect(deviceRotationPrompt.initialAngle).toBe(0);
+        });
+    });
+
+    describe('should get final angle', () => {
+        it('default', () => {
+            expect(deviceRotationPrompt.finalAngle).toBe(0);
+        });
+
+        it('orientation portrait, animationDirection clockwise', () => {
+            deviceRotationPrompt = new DeviceRotationPromptTest({animationDirection: AnimationDirection.Clockwise, orientation: DeviceOrientation.Portrait});
+            expect(deviceRotationPrompt.finalAngle).toBe(0);
+        });
+
+        it('orientation portrait, animationDirection anticlockwise', () => {
+            deviceRotationPrompt = new DeviceRotationPromptTest({animationDirection: AnimationDirection.Anticlockwise, orientation: DeviceOrientation.Portrait});
+            expect(deviceRotationPrompt.finalAngle).toBe(0);
+        });
+
+        it('orientation landscape, animationDirection clockwise', () => {
+            deviceRotationPrompt = new DeviceRotationPromptTest({animationDirection: AnimationDirection.Clockwise, orientation: DeviceOrientation.Landscape});
+            expect(deviceRotationPrompt.finalAngle).toBe(90);
+        });
+
+        it('orientation landscape, animationDirection anticlockwise', () => {
+            deviceRotationPrompt = new DeviceRotationPromptTest({animationDirection: AnimationDirection.Anticlockwise, orientation: DeviceOrientation.Landscape});
+            expect(deviceRotationPrompt.finalAngle).toBe(-90);
+        });
+    });
+
+    describe('should destroy implementation', () => {
+        it('default', () => {
+            deviceRotationPrompt.destroy();
+            expect(document.getElementById('stub')?.remove).toHaveBeenCalledTimes(4);
+            expect(document.getElementById).toHaveBeenCalledWith('promptContainer');
+            expect(document.getElementById).toHaveBeenCalledWith('promptImage');
+            expect(document.getElementById).toHaveBeenCalledWith('promptText');
+            expect(document.getElementById).toHaveBeenCalledWith('promptStyle');
+            expect(removeEventListener).toHaveBeenCalledWith('resize', expect.any(Function));
+        });
+
+        it('configured id', () => {
+            deviceRotationPrompt = new DeviceRotationPromptTest({containerId: 'cId', imageId: 'iId', textId: 'tId', styleId: 'sId'});
+            deviceRotationPrompt.destroy();
+            expect(document.getElementById).toHaveBeenCalledWith('cId');
+            expect(document.getElementById).toHaveBeenCalledWith('iId');
+            expect(document.getElementById).toHaveBeenCalledWith('tId');
+            expect(document.getElementById).toHaveBeenCalledWith('sId');
         });
     });
 });
