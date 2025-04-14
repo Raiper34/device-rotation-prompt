@@ -4,7 +4,7 @@ import {AnimationDirection, DeviceOrientation, IConfig, ImageStyle} from "./icon
 /**
  * Default class config
  */
-const DEFAULT_CONFIG: IConfig = {
+export const DEFAULT_CONFIG: IConfig = {
     orientation: DeviceOrientation.Portrait,
     backgroundColor: '#000000',
     imageColor: '#ffffff',
@@ -35,7 +35,7 @@ export class DeviceRotationPrompt {
      * Class config
      * @protected
      */
-    protected readonly config;
+    protected readonly config: IConfig;
     /**
      * Check orientation fn reference to be able to add and also remove event listener
      * @protected
@@ -48,12 +48,7 @@ export class DeviceRotationPrompt {
      */
     constructor(config: IConfig = DEFAULT_CONFIG) {
         this.config = {...DEFAULT_CONFIG, ...config};
-        if (this.canInitialize()) {
-            this.generateStyles();
-            this.generateHtml();
-            this.checkOrientation();
-            addEventListener("resize", this.checkOrientationFn);
-        }
+        this.initialize();
     }
 
     /**
@@ -67,12 +62,21 @@ export class DeviceRotationPrompt {
         document.getElementById(this.config.styleId!)?.remove();
     }
 
+    protected initialize(): void {
+        if (this.canInitialize) {
+            this.generateStyles();
+            this.generateHtml();
+            this.checkOrientation();
+            addEventListener("resize", this.checkOrientationFn);
+        }
+    }
+
     /**
      * Method to determine, if library and all functionality can be initialized
      * @protected
      */
-    protected canInitialize(): boolean {
-        return !this.config.mobileDetect || this.isMobile();
+    protected get canInitialize(): boolean {
+        return !this.config.mobileDetect || this.isMobile;
     }
 
     /**
@@ -80,14 +84,39 @@ export class DeviceRotationPrompt {
      * @protected
      */
     protected generateHtml(): void {
+        const container = this.generateContainerHtml();
+        this.generateSvgElement(container);
+        this.generateTextElement(container);
+    }
+
+    /**
+     *
+     * @protected
+     */
+    protected generateContainerHtml(): HTMLDivElement {
         const container = document.createElement('div');
         container.setAttribute('id', this.config.containerId!);
         document.body.appendChild(container);
+        return container;
+    }
 
+    /**
+     *
+     * @param container
+     * @protected
+     */
+    protected generateSvgElement(container: HTMLDivElement): void {
         const svg = document.createElement('div');
         svg.innerHTML = this.deviceSvg;
         container.append(svg);
+    }
 
+    /**
+     *
+     * @param container
+     * @protected
+     */
+    protected generateTextElement(container: HTMLDivElement): void {
         const text = document.createElement('div');
         text.setAttribute('id', this.config.textId!);
         text.innerText = this.config.text!;
@@ -102,7 +131,17 @@ export class DeviceRotationPrompt {
         const style = document.createElement('style');
         style.setAttribute('id', this.config.styleId!);
         style.innerHTML = `
-            #${this.config.containerId!} {
+            ${this.containerStyle}
+            ${this.textStyle}
+            ${this.imageStyle}
+            ${this.config.animationDisable ? '' : this.animationStyle}
+        `;
+        document.head.appendChild(style);
+    }
+
+    protected get containerStyle(): string {
+        return `
+        #${this.config.containerId!} {
                 height: 100vh;
                 width: 100vw;
                 position: fixed;
@@ -114,23 +153,31 @@ export class DeviceRotationPrompt {
                 flex-direction: column;
                 ${this.zIndexRule};
             }
-            #${this.config.textId!} {
+        `;
+    }
+
+    protected get textStyle(): string {
+        return `
+        #${this.config.textId!} {
                 display: ${this.isTextHidden};
                 font-size: ${this.textSize};
                 font-family: ${this.config.textFont};
                 color: ${this.config.textColor};
                 text-align: center;
             }
-            #${this.config.imageId} {
+        `;
+    }
+
+    protected get imageStyle(): string {
+        return `
+        #${this.config.imageId} {
                 height: ${this.imageSize};
                 fill: ${this.config.imageColor};
                 display: ${this.isImageHidden};
                 transform: rotate(${this.initialAngle}deg);
                 animation: rotation 3s ease infinite;
             }
-            ${this.config.animationDisable ? '' : this.animationStyle}
         `;
-        document.head.appendChild(style);
     }
 
     /**
@@ -166,7 +213,7 @@ export class DeviceRotationPrompt {
      * @returns true if orientation is same as you desire, false otherwise
      * @protected
      */
-    protected isDesiredOrientation(): boolean {
+    protected get isDesiredOrientation(): boolean {
         return this.config.orientation === DeviceOrientation.Portrait ? window.innerHeight > window.innerWidth : window.innerHeight < window.innerWidth;
     }
 
@@ -175,7 +222,7 @@ export class DeviceRotationPrompt {
      * @protected
      */
     protected checkOrientation(): void {
-        document.getElementById(this.config.containerId!)!.style.display = this.isDesiredOrientation() ? 'none' : 'flex';
+        document.getElementById(this.config.containerId!)!.style.display = this.isDesiredOrientation ? 'none' : 'flex';
     }
 
     /**
@@ -256,7 +303,7 @@ export class DeviceRotationPrompt {
      * Detect if is mobile/tablet platform or not
      * @protected
      */
-    protected isMobile(): boolean {
+    protected get isMobile(): boolean {
         return /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     }
 
