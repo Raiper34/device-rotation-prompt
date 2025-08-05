@@ -49,7 +49,7 @@ export class DeviceRotationPrompt {
     constructor(config: IConfig = DEFAULT_CONFIG) {
         this.config = {...DEFAULT_CONFIG, ...config};
         if (this.canInitialize()) {
-            this.generateStyles();
+            this.generateCss();
             this.generateHtml();
             this.checkOrientation();
             addEventListener("resize", this.checkOrientationFn);
@@ -80,14 +80,40 @@ export class DeviceRotationPrompt {
      * @protected
      */
     protected generateHtml(): void {
+        const container = this.generateContainerHtml();
+        this.generateSvgHtml(container);
+        this.generateTextHtml(container);
+    }
+
+    /**
+     * Method to generate the main fullscreen div container HTML element and append to body
+     *
+     * @returns The generated main fullscreen div container.
+     */
+    protected generateContainerHtml(): HTMLDivElement {
         const container = document.createElement('div');
         container.setAttribute('id', this.config.containerId!);
         document.body.appendChild(container);
+        return container;
+    }
 
+    /**
+     * Method to generate the svg image HTML element and append to container
+     *
+     * @param container - The container into which the SVG HTML element will be appended.
+     */
+    protected generateSvgHtml(container: HTMLDivElement): void {
         const svg = document.createElement('div');
         svg.innerHTML = this.deviceSvg;
         container.append(svg);
+    }
 
+    /**
+     * Method to generate the description text HTML element and append to container
+     *
+     * @param container - The HTML container element where the text element will be appended.
+     */
+    protected generateTextHtml(container: HTMLDivElement): void {
         const text = document.createElement('div');
         text.setAttribute('id', this.config.textId!);
         text.innerText = this.config.text!;
@@ -98,10 +124,25 @@ export class DeviceRotationPrompt {
      * Method to generate styles for generated HTML elements
      * @protected
      */
-    protected generateStyles(): void {
+    protected generateCss(): void {
         const style = document.createElement('style');
         style.setAttribute('id', this.config.styleId!);
         style.innerHTML = `
+            ${this.generateContainerCss()}
+            ${this.generateTextCss()}
+            ${this.generateImageCss()}
+            ${this.config.animationDisable ? '' : this.animationStyle}
+        `;
+        document.head.appendChild(style);
+    }
+
+    /**
+     * Method to generate styles for generated container HTML element
+     * @protected
+     * @returns CSS of the container element
+     */
+    protected generateContainerCss(): string {
+        return `
             #${this.config.containerId!} {
                 height: 100vh;
                 width: 100vw;
@@ -114,6 +155,16 @@ export class DeviceRotationPrompt {
                 flex-direction: column;
                 ${this.zIndexRule};
             }
+        `;
+    }
+
+    /**
+     * Method to generate styles for generated text HTML element
+     * @protected
+     * @returns CSS of the text element
+     */
+    protected generateTextCss(): string {
+        return `
             #${this.config.textId!} {
                 display: ${this.isTextHidden};
                 font-size: ${this.textSize};
@@ -121,6 +172,16 @@ export class DeviceRotationPrompt {
                 color: ${this.config.textColor};
                 text-align: center;
             }
+        `;
+    }
+
+    /**
+     * Method to generate styles for generated image HTML element
+     * @protected
+     * @returns CSS of the image element
+     */
+    protected generateImageCss(): string {
+        return `
             #${this.config.imageId} {
                 height: ${this.imageSize};
                 fill: ${this.config.imageColor};
@@ -128,9 +189,7 @@ export class DeviceRotationPrompt {
                 transform: rotate(${this.initialAngle}deg);
                 animation: rotation 3s ease infinite;
             }
-            ${this.config.animationDisable ? '' : this.animationStyle}
         `;
-        document.head.appendChild(style);
     }
 
     /**

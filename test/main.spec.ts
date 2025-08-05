@@ -5,7 +5,13 @@ import {Svg} from "../src/svg";
 class DeviceRotationPromptTest extends DeviceRotationPrompt {
     canInitialize(): boolean {return super.canInitialize();}
     generateHtml(): void {return super.generateHtml();}
-    generateStyles(): void {return super.generateStyles();}
+    generateContainerHtml(): HTMLDivElement {return super.generateContainerHtml();}
+    generateSvgHtml(container: HTMLDivElement): void {return super.generateSvgHtml(container);}
+    generateTextHtml(container: HTMLDivElement): void {return super.generateTextHtml(container);}
+    generateCss(): void {return super.generateCss();}
+    generateContainerCss(): string {return super.generateContainerCss();}
+    generateTextCss(): string {return super.generateTextCss();}
+    generateImageCss(): string {return super.generateImageCss();}
     get zIndexRule(): string {return super.zIndexRule;}
     get animationStyle(): string {return super.animationStyle;}
     isDesiredOrientation(): boolean {return super.isDesiredOrientation();}
@@ -39,6 +45,108 @@ describe('Device rotation prompt', () => {
         vi.stubGlobal('addEventListener', vi.fn());
         vi.stubGlobal('removeEventListener', vi.fn());
         deviceRotationPrompt = new DeviceRotationPromptTest();
+    });
+
+    describe('should generate html elements', () => {
+       it('all', () => {
+           const div = {} as HTMLDivElement;
+           vi.spyOn(deviceRotationPrompt, 'generateContainerHtml').mockReturnValue(div);
+           vi.spyOn(deviceRotationPrompt, 'generateSvgHtml').mockImplementation(() => {});
+           vi.spyOn(deviceRotationPrompt, 'generateTextHtml').mockImplementation(() => {});
+
+           deviceRotationPrompt.generateHtml();
+
+           expect(deviceRotationPrompt.generateContainerHtml).toHaveBeenCalled();
+           expect(deviceRotationPrompt.generateSvgHtml).toHaveBeenCalledWith(div);
+           expect(deviceRotationPrompt.generateTextHtml).toHaveBeenCalledWith(div);
+       });
+
+       it('container only', () => {
+           deviceRotationPrompt.config.containerId = 'containerId';
+           const container = deviceRotationPrompt.generateContainerHtml();
+
+           expect(container).toBeDefined();
+           expect(container.setAttribute).toBeCalledWith('id', 'containerId');
+           expect(document.createElement).toHaveBeenCalledWith('div');
+           expect(document.body.appendChild).toHaveBeenCalledWith(container);
+       });
+
+        it('image only', () => {
+            vi.spyOn(deviceRotationPrompt, 'deviceSvg', 'get').mockReturnValue('deviceSvg');
+            const container = {append: vi.fn()} as HTMLDivElement;
+
+            deviceRotationPrompt.generateSvgHtml(container);
+
+            expect(document.createElement).toHaveBeenCalledWith('div');
+            expect(container.append).toHaveBeenCalledWith(expect.objectContaining({innerHTML: 'deviceSvg'}));
+        });
+
+        it('text only', () => {
+            deviceRotationPrompt.config.text = 'text';
+            //deviceRotationPrompt.config.textId = 'textId';
+            const container = {append: vi.fn()} as HTMLDivElement;
+
+            deviceRotationPrompt.generateTextHtml(container);
+
+            expect(document.createElement).toHaveBeenCalledWith('div');
+            expect(container.append).toHaveBeenCalledWith(expect.objectContaining({innerText: 'text'}));
+        });
+    });
+
+    describe('should generate css style', () => {
+        it('all', () => {
+            vi.spyOn(deviceRotationPrompt, 'generateContainerCss').mockReturnValue('generateContainerCss');
+            vi.spyOn(deviceRotationPrompt, 'generateTextCss').mockReturnValue('generateTextCss');
+            vi.spyOn(deviceRotationPrompt, 'generateImageCss').mockReturnValue('generateImageCss');
+            vi.spyOn(deviceRotationPrompt, 'animationStyle', 'get').mockReturnValue('animationStyle');
+
+            deviceRotationPrompt.generateCss();
+
+            expect(document.createElement).toHaveBeenCalledWith('style');
+            // expect id
+            expect(deviceRotationPrompt.generateContainerCss).toHaveBeenCalled();
+            expect(deviceRotationPrompt.generateTextCss).toHaveBeenCalled();
+            expect(deviceRotationPrompt.generateImageCss).toHaveBeenCalled();
+            expect(document.head.appendChild).toHaveBeenCalledWith(expect.objectContaining({
+                innerHTML: `
+            generateContainerCss
+            generateTextCss
+            generateImageCss
+            animationStyle
+        ` // formatting important for unit tests (indentation, black characters, new lines...)
+            }));
+        });
+
+        it('container only', () => {
+            deviceRotationPrompt.config.containerId = 'containerId';
+            deviceRotationPrompt.config.backgroundColor = 'color';
+            vi.spyOn(deviceRotationPrompt, 'zIndexRule', 'get').mockReturnValue('zIndexRule');
+            expect(deviceRotationPrompt.generateContainerCss().replace(/\s/g, '')).toBe(
+                '#containerId{height:100vh;width:100vw;position:fixed;top:0px;left:0px;background-color:color;justify-content:center;align-items:center;flex-direction:column;zIndexRule;}'
+            );
+        });
+
+        it('image only', () => {
+            deviceRotationPrompt.config.textId = 'textId';
+            deviceRotationPrompt.config.textFont = 'textFont';
+            deviceRotationPrompt.config.textColor = 'textColor';
+            vi.spyOn(deviceRotationPrompt, 'isTextHidden', 'get').mockReturnValue('isTextHidden');
+            vi.spyOn(deviceRotationPrompt, 'textSize', 'get').mockReturnValue('textSize');
+            expect(deviceRotationPrompt.generateTextCss().replace(/\s/g, '')).toBe(
+                '#textId{display:isTextHidden;font-size:textSize;font-family:textFont;color:textColor;text-align:center;}'
+            );
+        });
+
+        it('text only', () => {
+            deviceRotationPrompt.config.imageId = 'imageId';
+            deviceRotationPrompt.config.imageColor = 'imageColor';
+            vi.spyOn(deviceRotationPrompt, 'imageSize', 'get').mockReturnValue('imageSize');
+            vi.spyOn(deviceRotationPrompt, 'isImageHidden', 'get').mockReturnValue('isImageHidden');
+            vi.spyOn(deviceRotationPrompt, 'initialAngle', 'get').mockReturnValue('initialAngle');
+            expect(deviceRotationPrompt.generateImageCss().replace(/\s/g, '')).toBe(
+                '#imageId{height:imageSize;fill:imageColor;display:isImageHidden;transform:rotate(initialAngledeg);animation:rotation3seaseinfinite;}'
+            );
+        });
     });
 
     describe('should get if library should be initialized', () => {
