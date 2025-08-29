@@ -19,17 +19,24 @@ It is designed to be used in html5 games, but it can be used on any website.
 - [🚀 Installation](#-instalation)
 - [📚 Documentation](#-documentation)
 - [💻 Usage](#-usage)
-    - [🌐 Browser](#-browser)
 - [⚖️ License](#-license)
 
 # 🚀 Instalation
-Install **Device rotation prompt** library using npm
+Install **Device rotation prompt** library using `npm`
 ```sh
 npm install device-rotation-prompt --save
 ```
-or with jsdelivr
+and import library like
+```ts
+import {DeviceRotationPrompt} from "device-rotation-prompt";
+```
+Or add directly into an HTML file with `jsdelivr` CDN
 ```html
 <script src="https://cdn.jsdelivr.net/npm/device-rotation-prompt@4.0.0/dist/device-rotation-prompt.iife.js"></script>
+<script>
+  const DeviceRotationPrompt = deviceRotationPrompt.DeviceRotationPrompt;
+  ...
+</script>
 ```
 
 # 📚 Documentation
@@ -59,16 +66,6 @@ const prompt = new DeviceRotationPrompt({
 });
 ```
 The properties are as follows and all are optional: https://device-rotation-prompt.netlify.app/interfaces/iconfig
-
-## 🌐 Browser
-You can also use this library in the browser without compiling using jsDelivr.
-Import script into HTML file, and you can access classes through the global `treeUtils` object.
-```html
-<script src="https://cdn.jsdelivr.net/npm/device-rotation-prompt@4.0.0/dist/device-rotation-prompt.iife.js"></script>
-<script>
-    const prompt = new deviceRotationPrompt.DeviceRotationPrompt({orientation: 'landscape'});
-</script>
-```
 
 # ⚖️ License
 [MIT](https://choosealicense.com/licenses/mit/)
