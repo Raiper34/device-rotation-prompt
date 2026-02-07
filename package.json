@@ -33,7 +33,7 @@
     "build": "tsc && vite build",
     "test": "vitest run --coverage",
     "test:dev": "vitest --ui --coverage",
-    "test:ci": "npm run test && cat ./coverage/lcov.info | coveralls",
+    "test:ci": "npm run test",
     "lint": "eslint ./src",
     "lint:fix": "npm run lint -- --fix",
     "docs": "typedoc src/index.ts",

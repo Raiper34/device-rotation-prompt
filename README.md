@@ -2,7 +2,7 @@
 [![docs](https://badgen.net/badge/docs/online/orange)](https://device-rotation-prompt.netlify.app)
 ![npm bundle size](https://img.shields.io/bundlephobia/min/device-rotation-prompt)
 ![NPM](https://img.shields.io/npm/l/device-rotation-prompt)
-[![CircleCI](https://circleci.com/gh/Raiper34/device-rotation-prompt.svg?style=shield)](https://circleci.com/gh/Raiper34/device-rotation-prompt)
+[![GitHub Workflow Status](https://github.com/raiper34/device-rotation-prompt/actions/workflows/test.yml/badge.svg)](https://github.com/Raiper34/device-rotation-prompt)
 [![Coverage Status](https://coveralls.io/repos/github/Raiper34/device-rotation-prompt/badge.svg?branch=main)](https://coveralls.io/github/Raiper34/device-rotation-prompt?branch=main)
 [![npm](https://img.shields.io/npm/dt/device-rotation-prompt)](https://badge.fury.io/js/device-rotation-prompt)
 [![npm](https://img.shields.io/npm/dm/device-rotation-prompt)](https://badge.fury.io/js/device-rotation-prompt)
